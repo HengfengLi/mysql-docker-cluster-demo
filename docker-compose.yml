@@ -1,0 +1,30 @@
+version: "3"
+services:
+  mysql-master:
+    container_name: mysql-master
+    build: 
+        context: ./master
+        dockerfile: ./Dockerfile
+    volumes:
+      - ./data/master/db_data:/var/lib/mysql
+      - ./master/repl.cnf:/etc/mysql/mysql.conf.d/repl.cnf
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+    #   - MYSQL_ROOT_PASSWORD=mypassword
+    #   - MYSQL_USER=myuser
+    #   - MYSQL_PASSWORD=mypassword
+    #   - MYSQL_DATABASE=mydb
+  mysql-slave:
+    container_name: mysql-slave
+    build: 
+        context: ./slave
+        dockerfile: ./Dockerfile
+    volumes:
+      - ./data/slave/db_data:/var/lib/mysql
+      - ./slave/repl.cnf:/etc/mysql/mysql.conf.d/repl.cnf
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+    #   - MYSQL_ROOT_PASSWORD=mypassword
+    #   - MYSQL_USER=myuser
+    #   - MYSQL_PASSWORD=mypassword
+    #   - MYSQL_DATABASE=mydb
